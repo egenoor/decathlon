@@ -21,7 +21,4 @@ public class Athlete {
     private String lastName;
     private String country;
     private int age;
-
-    @OneToMany
-    private List<Result> results;
 }

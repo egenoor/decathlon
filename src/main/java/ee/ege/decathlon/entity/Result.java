@@ -16,7 +16,8 @@ public class Result {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int points;
+    private String event;
 
     @ManyToOne
-    private Event event;
+    private Athlete athlete;
 }
