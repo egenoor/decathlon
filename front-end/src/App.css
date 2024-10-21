@@ -1,0 +1,16 @@
+.App {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  .form-container {
+    .form-input {
+      text-align: left;
+    }
+  }
+}
+
+.App-link {
+  color: #61dafb;
+}
+
