@@ -5,6 +5,8 @@ import ee.ege.decathlon.repository.AthleteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AthleteService {
 
@@ -13,5 +15,9 @@ public class AthleteService {
 
     public void saveAthlete(Athlete athlete) {
         athleteRepository.save(athlete);
+    }
+
+    public List<Athlete> getAthletes() {
+        return athleteRepository.findAll();
     }
 }

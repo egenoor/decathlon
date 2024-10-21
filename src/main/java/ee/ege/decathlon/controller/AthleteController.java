@@ -15,12 +15,9 @@ public class AthleteController {
     @Autowired
     AthleteService athleteService;
 
-    @Autowired
-    AthleteRepository athleteRepository;
-
     @GetMapping("/athletes")
     public List<Athlete> getAthletes() {
-        return athleteRepository.findAll();
+        return athleteService.getAthletes();
     }
 
     @PostMapping("/athlete")
