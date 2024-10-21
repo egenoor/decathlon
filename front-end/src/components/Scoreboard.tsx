@@ -6,25 +6,19 @@ export interface AthleteResponse {
   firstName: string;
   lastName: string;
   country: string;
-  age: number;
-}
-
-interface Athlete extends AthleteResponse {
   points: number;
 }
 
 function Scoreboard() {
-  const [athletes, setAthletes] = useState<Athlete[]>([]);
-
-  const fetchAthletePoints = async (id: string) => {
-    const pointResponse = await fetch(`http://localhost:8080/results/${id}`);
-    const points = await pointResponse.json();
-    return points;
-  };
+  const [athletes, setAthletes] = useState<AthleteResponse[]>([]);
+  const [registerPoints, setRegisterPoints] = useState(false);
+  const [athleteDetails, setAthleteDetails] = useState<AthleteResponse | null>(
+    null
+  );
 
   useEffect(() => {
     const fetchData = async () => {
-      const athletesResponse = await fetch("http://localhost:8080/athletes", {
+      const athletesResponse = await fetch("http://localhost:8080/results", {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -33,11 +27,6 @@ function Scoreboard() {
       });
 
       const athletesJson = await athletesResponse.json();
-
-      for (const athlete of athletesJson) {
-        const points = await fetchAthletePoints(athlete.id);
-        athlete.points = points;
-      }
       setAthletes(athletesJson);
     };
     fetchData();
@@ -55,14 +44,42 @@ function Scoreboard() {
         {athletes.map((athlete) => {
           return (
             <tr>
-              <td>{athlete.firstName + " " + athlete.lastName}</td>
+              <td>
+                <a
+                  href={"/#"}
+                  onClick={() => {
+                    setAthleteDetails(athlete);
+                  }}
+                >
+                  {athlete.firstName + " " + athlete.lastName}
+                </a>
+              </td>
               <td>{athlete.country}</td>
               <td>{athlete.points}</td>
             </tr>
           );
         })}
       </table>
-      <RegisterPoints athletes={athletes} />
+      <br></br>
+      {athleteDetails !== null && (
+        <table>
+          <tr>
+            <td>{athleteDetails.firstName + " " + athleteDetails.lastName}</td>
+            <td>{athleteDetails.country}</td>
+            <td>{athleteDetails.points}</td>
+          </tr>
+        </table>
+      )}
+      <br></br>
+      <button
+        type="button"
+        onClick={() => {
+          setRegisterPoints(true);
+        }}
+      >
+        Register points
+      </button>
+      {registerPoints && <RegisterPoints athletes={athletes} />}
     </div>
   );
 }
